@@ -1,0 +1,28 @@
+body,
+html {
+  width: 100%;
+  height: 100%; 
+}
+li{
+	cursor: pointer;
+}
+h1{
+	color: #047DDA;
+	margin-left: 80px;
+	margin-top: 60px;
+
+}
+p{
+	color: #047DDA;
+	margin-left: 80px;
+	
+}
+.founder{
+	color: #047DDA;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+	background-image: url(paw.jpg);
+	background-size: cover;
+}

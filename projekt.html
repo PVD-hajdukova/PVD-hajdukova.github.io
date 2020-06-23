@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>YUMMY PETS PRODUCTS</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="projekt.css">
+</head>
+<body>
+	<ul class="nav justify-content-center">
+		  <li class="nav-item">
+		    <a class="nav-link" href="index.html">Domov</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="podnik.html">Podnik</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="projekt.html">O projekte</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="video.html">Video</a>
+		  </li>
+	</ul>
+
+	<h1>O projekte</h1>
+
+	<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+  	<p><img src="mesiac.png" class="img-responsive" alt=""></p>
+    <h2 class="display-4">Časová dimenzia - predaje v roku 2019 podla mesiaca</h1>
+    <p class="lead">SELECT to_char(to_date(tt.mesiac_dodania::text, 'MM'), 'Mon') AS mesiac_dodania, tt.sum_suma_dodania FROM (
+	SELECT t.mesiac_dodania, sum(t.suma_dodania) AS sum_suma_dodania FROM (
+		SELECT extract(MONTH FROM datum_dodania) AS mesiac_dodania, suma_dodania FROM dodaci_list
+		WHERE EXTRACT(YEAR FROM datum_dodania) = 2019
+ ) t
+ GROUP BY t.mesiac_dodania
+ ORDER BY t.mesiac_dodania
+) tt;</p>
+  </div>
+	</div>
+
+	<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+  	  	<p><img src="okres.png" class="img-responsive" alt=""></p>
+    <h3 class="display-4">Priestorová dimenzia - predaje podľa okresu</h1>
+    <p class="lead">SELECT okres.skratka_okresu, okres.nazov_okresu, sum(suma_dodania) AS SUM_suma_dodania FROM dodaci_list
+LEFT JOIN partner ON dodaci_list.cislo_partnera = partner.cislo_partnera
+LEFT JOIN mesto ON partner.skratka_mesta = mesto.skratka_mesta
+LEFT JOIN okres ON mesto.skratka_okresu = okres.skratka_okresu
+GROUP BY okres.skratka_okresu, okres.nazov_okresu
+ORDER BY sum_suma_dodania DESC;</p>
+  </div>
+</div>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+  	  	<p><img src="typ.png" class="img-responsive" alt=""></p>
+    <h3 class="display-4">Produktová dimenzia - predaje podľa typu produktu</h1>
+    <p class="lead">SELECT typ_produktu.nazov_typu_produktu, SUM(dodaci_list.suma_dodania) FROM dodaci_list
+LEFT JOIN dodany_produkt ON dodaci_list.cislo_dodacieho_listu = dodany_produkt.cislo_dodacieho_listu
+LEFT JOIN produkt ON dodany_produkt.cislo_produktu = produkt.cislo_produktu
+LEFT JOIN typ_produktu ON produkt.typ_produktu = typ_produktu.typ_produktu
+GROUP BY nazov_typu_produktu;</p>
+  </div>
+</div>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+  	  	<p><img src="produkt.png" class="img-responsive" alt=""></p>
+    <h3 class="display-4">Produktová dimenzia - predaje podľa druhu produktu</h1>
+    <p class="lead">SELECT produkt.nazov_produktu, sum(dodany_produkt.dodane_mnozstvo * produkt.predajna_cena) AS sum_predajna_cena FROM dodaci_list
+LEFT JOIN dodany_produkt ON dodaci_list.cislo_dodacieho_listu = dodany_produkt.cislo_dodacieho_listu
+LEFT JOIN produkt ON dodany_produkt.cislo_produktu = produkt.cislo_produktu
+WHERE EXTRACT(YEAR FROM datum_dodania) = 2019
+GROUP BY produkt.nazov_produktu
+ORDER BY sum_predajna_cena DESC;</p>
+  </div>
+</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
